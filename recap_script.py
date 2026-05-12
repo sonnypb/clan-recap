@@ -1,34 +1,69 @@
-# RECAP WRITE UP SCRIPT
-import datetime
+from datetime import datetime
 from collections import defaultdict
 
 mvp_counter = defaultdict(int)
-month = datetime.datetime.now().strftime("%B")
 
 # Pre-made titles
 MONTH_TITLES = {
-    "January": "January's Chilled Conquests: Winter's Monthly Highlights",
-    "February": "February's Glacial Gains: Winter's Monthly Highlights",
-    "March": "March's Icy Illumination: Winter's Monthly Highlights",
-    "April": "April's Frostbitten Feats: Winter's Monthly Highlights",
-    "May": "May's Snowbound Success: Winter's Monthly Highlights",
-    "June": "June's Arctic Accolades: Winter's Monthly Highlights",
-    "July": "July's Polar Prosperity: Winter's Monthly Highlights",
-    "August": "August's Frozen Fables: Winter's Monthly Highlights",
-    "September": "September's Winter Wonderland: Winter's Monthly Highlights",
-    "October": "October's Blizzard Bounty: Winter's Monthly Highlights",
-    "November": "November's Icy Success: Winter's Monthly Highlights",
-    "December": "December's Frosty Fortunes: Winter's Monthly Highlights"
+    "January": "Winter’s January Highlights",
+    "February": "Winter’s February Highlights",
+    "March": "Winter’s March Highlights",
+    "April": "Winter’s April Highlights",
+    "May": "Winter’s May Highlights",
+    "June": "Winter’s June Highlights",
+    "July": "Winter’s July Highlights",
+    "August": "Winter’s August Highlights",
+    "September": "Winter’s September Highlights",
+    "October": "Winter’s October Highlights",
+    "November": "Winter’s November Highlights",
+    "December": "Winter’s December Highlights"
+}
+
+# Map for abbreviated month input
+MONTH_MAP = {
+    "jan": "January",
+    "january": "January",
+    "feb": "February",
+    "february": "February",
+    "mar": "March",
+    "march": "March",
+    "apr": "April",
+    "april": "April",
+    "may": "May",
+    "jun": "June",
+    "june": "June",
+    "jul": "July",
+    "july": "July",
+    "aug": "August",
+    "august": "August",
+    "sep": "September",
+    "september": "September",
+    "oct": "October",
+    "october": "October",
+    "nov": "November",
+    "november": "November",
+    "dec": "December",
+    "december": "December"
 }
 
 # Optional intro templates
 MONTH_INTRO = {
-    "default": "Hello @Winter,\nAnother busy month in OSRS, Here's the rundown of what our clan got up to this month! ❄️"
+    "default": "Hello @Winter,\nIt was another busy month in OSRS, Here's the rundown of what our clan got up to this month! ❄️"
 }
 
 # Recap goodbye message
 GOODBYE_MESSAGE = "\n\nTo ensure your amazing drops and achievements are included in our monthly recap, please post them in the #osrs-showcase channel.\nBest of luck with your drops and achievements in the upcoming month!! :WinterGif::Winter:"
 
+def get_month():
+    while True:
+        raw = input("Which month is the recap for? ").strip().lower()
+
+        month = MONTH_MAP.get(raw)
+
+        if month:
+            return month
+
+        print("Invalid month. Try again (e.g. jan or January).")
 
 def get_title_and_intro(month):
     title = MONTH_TITLES.get(month, f"{month} — Winter's Monthly Highlights")
@@ -83,10 +118,12 @@ def write_output(output_file, output_lines):
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(full_text)
 
+def build_output_filename(month):
+    year = datetime.now().year
+    return f"recap_{month}_{year}.txt"        
 
-def format_recap(input_file, output_file, month=month):
-    # if month is None:
-    #     month = datetime.datetime.now().strftime("%B")
+
+def format_recap(input_file, output_file, month):
 
     print(f"Generating recap for {month}...")
     title, intro = get_title_and_intro(month)
@@ -126,6 +163,11 @@ def format_recap(input_file, output_file, month=month):
     write_output(output_file, output_lines)
     print("Recap formatting complete.")
 
+def main():
+    month = get_month()
+    output_file = build_output_filename(month)
+    format_recap("recap_input.txt", output_file, month)
+
 
 if __name__ == "__main__":
-    format_recap("recap_input.txt", "recap_output.txt")
+    main()
