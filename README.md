@@ -79,7 +79,7 @@ When prompted, enter either:
 
 ### 6. Output
 
-A file will be created like:
+A file will be created in the output folder like:
 
 ```
 recap_february_2026.txt

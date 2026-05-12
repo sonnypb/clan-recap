@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 # Map for abbreviated month input
 MONTH_MAP = {
@@ -75,7 +76,8 @@ def write_output(output_file, output_lines):
 
 def build_output_filename(month):
     year = datetime.now().year
-    return f"recap_{month.lower()}_{year}.txt"        
+    # return f"recap_{month.lower()}_{year}.txt"        
+    return f"outputs/recap_{month.lower()}_{year}.txt"
 
 def format_recap(input_file, output_file, month):
 
@@ -117,8 +119,11 @@ def format_recap(input_file, output_file, month):
     print("Recap formatting complete.")
 
 def main():
+    os.makedirs("outputs", exist_ok=True)
+
     month = get_month()
     output_file = build_output_filename(month)
+    
     format_recap("recap_input.txt", output_file, month)
 
 
